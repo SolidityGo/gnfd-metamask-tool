@@ -1,0 +1,10 @@
+{
+  "name": "gnfd-tool",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@cosmjs/stargate": "^0.29.5",
+    "ethers": "^5.7.2"
+  }
+}
