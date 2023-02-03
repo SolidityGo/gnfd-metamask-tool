@@ -1,10 +1,3 @@
-# Greenfield Go SDK 
-
-The `Greenfield-GO-SDK` provides a thin wrapper for interacting with `greenfield` in two ways:
-
-1. Interact using `gnfd-tendermint` RPC client, you may perform low-level operations like executing ABCI queries, viewing network/consensus state.
-2. Interact using `gnfd-cosmos-sdk` GRPC clients, this includes querying accounts, chain info and broadcasting transaction. 
-
 ## Usage
 
 ### Quick Start
