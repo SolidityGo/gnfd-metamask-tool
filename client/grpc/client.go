@@ -4,7 +4,6 @@ import (
 	_ "encoding/json"
 	"github.com/bnb-chain/gnfd-go-sdk/keys"
 	"github.com/bnb-chain/gnfd-go-sdk/types"
-	gnfdtypes "github.com/bnb-chain/greenfield/x/greenfield/types"
 	"github.com/cosmos/cosmos-sdk/types/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
@@ -37,8 +36,6 @@ type AuthzMsgClient = authztypes.MsgClient
 type FeegrantQueryClient = feegranttypes.QueryClient
 type FeegrantMsgClient = feegranttypes.MsgClient
 type ParamsQueryClient = paramstypes.QueryClient
-type BfsQueryClient = gnfdtypes.QueryClient
-type BfsMsgClient = gnfdtypes.MsgClient
 type TxClient = tx.ServiceClient
 
 type GreenfieldClient struct {
@@ -60,8 +57,6 @@ type GreenfieldClient struct {
 	FeegrantQueryClient
 	FeegrantMsgClient
 	ParamsQueryClient
-	BfsQueryClient
-	BfsMsgClient
 	keyManager keys.KeyManager
 }
 
@@ -99,8 +94,6 @@ func NewGreenfieldClient(grpcAddr, chainId string) GreenfieldClient {
 		feegranttypes.NewQueryClient(conn),
 		feegranttypes.NewMsgClient(conn),
 		paramstypes.NewQueryClient(conn),
-		gnfdtypes.NewQueryClient(conn),
-		gnfdtypes.NewMsgClient(conn),
 		nil,
 	}
 }

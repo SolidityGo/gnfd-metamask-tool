@@ -6,6 +6,7 @@ import (
 	"github.com/bnb-chain/gnfd-go-sdk/util"
 	clitx "github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	txtypes "github.com/cosmos/cosmos-sdk/types/tx"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	xauthsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
@@ -52,15 +53,21 @@ func (c *GreenfieldClient) GenerateTx(signature string, req types.SendTokenReque
 	if err != nil {
 		return nil, err
 	}
-	transferMsg := banktypes.NewMsgSend(km.GetAddr(), to, sdk.NewCoins(sdk.NewInt64Coin(req.Token, req.Amount)))
 
 	txConfig := authtx.NewTxConfig(types.Cdc(), authtx.DefaultSignModes)
 	txBuilder := txConfig.NewTxBuilder()
-	err = txBuilder.SetMsgs(transferMsg)
+
+	transferMsg := banktypes.NewMsgSend(km.GetAddr(), to, sdk.NewCoins(sdk.NewInt64Coin(req.Token, req.Amount)))
+	//multi transfer
+	err = txBuilder.SetMsgs(transferMsg, transferMsg)
+
 	if err != nil {
 		return nil, err
 	}
-	txBuilder.SetGasLimit(types.DefaultGasLimit)
+	fee := txtypes.Fee{Amount: sdk.NewCoins(sdk.NewInt64Coin("BNB", 80000000000000)), GasLimit: 4000}
+	txBuilder.SetFeeAmount(fee.Amount)
+	txBuilder.SetFeePayer(km.GetAddr())
+	txBuilder.SetGasLimit(fee.GasLimit)
 
 	address := km.GetAddr().String()
 	account, err := c.Account(address)
@@ -69,6 +76,9 @@ func (c *GreenfieldClient) GenerateTx(signature string, req types.SendTokenReque
 	}
 	accountNum := account.GetAccountNumber()
 	accountSeq := account.GetSequence()
+
+	fmt.Println("accountNum", accountNum)
+	fmt.Println("accountSeq", accountSeq)
 
 	sig := signing.SignatureV2{
 		PubKey: km.GetPrivKey().PubKey(),
@@ -124,26 +134,21 @@ func (c *GreenfieldClient) GenerateTx(signature string, req types.SendTokenReque
 		return nil, err
 	}
 
-	return txBytes, nil
+	/* send tx
+	txRes, err := c.TxClient.BroadcastTx(
+		context.Background(),
+		&txtypes.BroadcastTxRequest{
+			Mode:    txtypes.BroadcastMode_BROADCAST_MODE_SYNC,
+			TxBytes: txBytes,
+		})
 
-	/*	txRes, err := c.TxClient.BroadcastTx(
-			context.Background(),
-			&tx.BroadcastTxRequest{
-				Mode:    mode,
-				TxBytes: txBytes,
-			})
+	if err != nil {
+		return nil, err
+	}
+	txResponse := txRes.TxResponse
 
-		if err != nil {
-			return nil, err
-		}
-		txResponse := txRes.TxResponse
-
-		return &types.TxBroadcastResponse{
-			Ok:     txResponse.Code == 0,
-			Log:    txRes.TxResponse.RawLog,
-			TxHash: txResponse.TxHash,
-			Code:   txResponse.Code,
-			Data:   txResponse.Data,
-		}, nil
+	fmt.Println(txResponse)
 	*/
+
+	return txBytes, nil
 }

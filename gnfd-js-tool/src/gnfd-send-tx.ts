@@ -18,16 +18,16 @@ const main = async () => {
     const chainId = await client.getChainId()
     log('chainId', chainId)
 
-    let balance1 = await client.getBalance(wallet1.address, 'bnb');
+    let balance1 = await client.getBalance(wallet1.address, 'BNB');
     log(wallet1.address, 'balance: ', balance1)
-    let balance2 = await client.getBalance('0x0000000000000000000000000000000000000001', 'bnb');
+    let balance2 = await client.getBalance('0x0000000000000000000000000000000000000001', 'BNB');
     log('0x0000000000000000000000000000000000000001', 'balance: ', balance2)
 
     await sendRawTx(txRawBytes)
 
-    balance1 = await client.getBalance(wallet1.address, 'bnb');
+    balance1 = await client.getBalance(wallet1.address, 'BNB');
     log(wallet1.address, 'balance: ', balance1)
-    balance2 = await client.getBalance('0x0000000000000000000000000000000000000001', 'bnb');
+    balance2 = await client.getBalance('0x0000000000000000000000000000000000000001', 'BNB');
     log('0x0000000000000000000000000000000000000001', 'balance: ', balance2)
 }
 
@@ -37,7 +37,7 @@ const sendRawTx = async (txBytesHex: string) => {
     }
     const rawTxBytes: Uint8Array = Uint8Array.from(Buffer.from(txBytesHex, 'hex'));
     const txResponse = await client.broadcastTx(rawTxBytes)
-    log(txResponse)
+    log('tx response', txResponse)
 }
 
 main()
