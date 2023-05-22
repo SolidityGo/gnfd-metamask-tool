@@ -57,7 +57,7 @@ func txHandler(w http.ResponseWriter, req *http.Request) {
 
 	sendTokenReq := types.SendTokenRequest{
 		Token:     "BNB",
-		Amount:    1,
+		Amount:    t.Amount,
 		ToAddress: "0x0000000000000000000000000000000000000001",
 	}
 

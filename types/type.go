@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	DefaultGasLimit = uint64(20000)
+	DefaultGasLimit = uint64(210000)
 )
 
 type SendTokenRequest struct {
