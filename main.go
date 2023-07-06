@@ -56,7 +56,7 @@ func txHandler(w http.ResponseWriter, req *http.Request) {
 	log.Println("sig from js", t.Signature)
 
 	sendTokenReq := types.SendTokenRequest{
-		Token:     "bnb",
+		Token:     "BNB",
 		Amount:    t.Amount,
 		ToAddress: "0x0000000000000000000000000000000000000001",
 	}

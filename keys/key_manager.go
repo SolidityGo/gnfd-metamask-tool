@@ -4,9 +4,9 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
+	ethHd "github.com/cosmos/cosmos-sdk/crypto/hd"
+	"github.com/cosmos/cosmos-sdk/crypto/keys/eth/ethsecp256k1"
 	ctypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/evmos/ethermint/crypto/ethsecp256k1"
-	ethHd "github.com/evmos/ethermint/crypto/hd"
 
 	"strings"
 
